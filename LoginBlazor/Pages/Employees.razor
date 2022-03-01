@@ -1,0 +1,53 @@
+﻿@page "/Login"
+@using LoginBlazor.Data
+@inject LoginService loginService
+@inject NavigationManager NavigationManager
+<h3>
+    Login
+    @*<input @bind-value="message" />*@
+</h3>
+
+<hr />
+<form >
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="UserName" class="control-label">User Name</label>
+                <input form="UserName" class="form-control" @bind="@obj.UserName" />
+            </div>
+            <div class="form-group">
+                <label for="Password" class="control-label">Password</label>
+                <input form="Password" class="form-control" @bind="@obj.Password" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@Login" value="Login" />
+            </div>
+        </div>
+    </div>
+</form>
+<h2>
+    <input @bind-value="message" />
+</h2>
+@code {
+    Employee obj = new Employee();
+    public string message { get; set; }
+    protected void Login()
+    {
+        bool isLogin = loginService.AuthUser(obj.UserName, obj.Password);
+        if (isLogin)
+        {
+            //NavigationManager.NavigateTo("Employees");
+            message = "You have successfully Logged in";
+        }
+        else
+        {
+            //incorrent
+            message = "Incorrect Id or password";
+        }
+        //NavigationManager.NavigateTo("Employees");
+    }
+}
